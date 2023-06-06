@@ -1,12 +1,11 @@
 # SVG Donut Sector Library
 
-1. Table of Contents
-2. Installation
-   - Usage
-   - React Component
-3. Helper Function
-4. API
-5. License
+1. [Installation](#installation)
+2. [Usage](#usage)
+   - [React Component](#react-component)
+   - [Helper Function](#helper-function)
+3. [API](#api)
+4. [License](#license)
 
 ## Installation
 
