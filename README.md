@@ -60,7 +60,6 @@ You can also use the `generateDonutSector` function to create a string represent
 ```js
 import { generateDonutSector } from "svg-donut-sector";
 
-// Then in your code...
 const svgString = generateDonutSector({
   angle: 120,
   size: 200,
