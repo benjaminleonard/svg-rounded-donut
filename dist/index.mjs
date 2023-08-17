@@ -1,39 +1,6 @@
 // src/index.tsx
-import { useMemo } from "react";
 import { jsx } from "react/jsx-runtime";
-var DonutSector = ({
-  angle,
-  size,
-  thickness,
-  cornerRadius = 0,
-  color
-}) => {
-  const outerRadius = size / 2;
-  const innerRadius = outerRadius - thickness;
-  const maxAngle = 360 - 360 / (2 * Math.PI * innerRadius);
-  const path = useMemo(
-    () => getPath(Math.min(maxAngle, angle), thickness, size, cornerRadius),
-    [angle, thickness, size, cornerRadius, maxAngle]
-  );
-  if (angle === 0)
-    return null;
-  if (angle === 360) {
-    return /* @__PURE__ */ jsx(
-      "circle",
-      {
-        cx: 0,
-        cy: 0,
-        r: outerRadius - thickness / 2,
-        fill: "none",
-        stroke: color,
-        strokeWidth: thickness,
-        opacity: "1"
-      }
-    );
-  }
-  return /* @__PURE__ */ jsx("path", { d: path, fill: color });
-};
-function generateDonutSector({
+function renderDonutSector({
   angle,
   size,
   thickness,
@@ -50,19 +17,35 @@ function generateDonutSector({
     cornerRadius
   );
   if (angle === 0)
-    return "";
-  if (angle === 360) {
-    return `<circle
-				cx="${0}"
-				cy="${0}"
-				r="${outerRadius - thickness / 2}"
-				fill="none"
-				stroke="${color}"
-				strokeWidth="${thickness}"
-				opacity="1"
-			/>`;
+    return [null, outerRadius];
+  if (angle >= 360) {
+    return [path, outerRadius];
   }
-  return `<path d="${path}" fill="${color}" />`;
+  return [path, outerRadius];
+}
+var DonutSector = (props) => {
+  const [path, outerRadius] = renderDonutSector(props);
+  if (!path)
+    return null;
+  return /* @__PURE__ */ jsx(
+    "path",
+    {
+      d: path,
+      fill: props.color,
+      cx: 0,
+      cy: 0,
+      r: outerRadius - props.thickness / 2,
+      stroke: props.color,
+      strokeWidth: props.thickness,
+      opacity: "1"
+    }
+  );
+};
+function generateDonutSector(props) {
+  const [path, outerRadius] = renderDonutSector(props);
+  if (!path)
+    return "";
+  return `<path d="${path}" fill="${props.color}" cx="${0}" cy="${0}" r="${outerRadius - props.thickness / 2}" fill="none" stroke="${props.color}" strokeWidth="${props.thickness}" opacity="1" />`;
 }
 function getPath(angle, thickness, size, cornerRadius) {
   const outerRadius = size / 2;

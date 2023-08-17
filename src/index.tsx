@@ -8,53 +8,18 @@ type DonutSectorProps = {
   color: string;
 };
 
-const DonutSector = ({
-  angle,
-  size,
-  thickness,
-  cornerRadius = 0,
-  color,
-}: DonutSectorProps) => {
-  const outerRadius = size / 2;
-  const innerRadius = outerRadius - thickness;
-
-  // Clamps angle at the point that leaves at least
-  // a 1px circumference on the inner circle
-  const maxAngle = 360 - 360 / (2 * Math.PI * innerRadius);
-
-  const path = useMemo(
-    () => getPath(Math.min(maxAngle, angle), thickness, size, cornerRadius),
-    [angle, thickness, size, cornerRadius, maxAngle]
-  );
-
-  // 0 angle shouldn't render anything
-  if (angle === 0) return null;
-
-  // 360 angle returns a full circle
-  if (angle === 360) {
-    return (
-      <circle
-        cx={0}
-        cy={0}
-        r={outerRadius - thickness / 2}
-        fill="none"
-        stroke={color}
-        strokeWidth={thickness}
-        opacity="1"
-      />
-    );
-  }
-
-  return <path d={path} fill={color} />;
+type Vector = {
+  x: number;
+  y: number;
 };
 
-function generateDonutSector({
+function renderDonutSector({
   angle,
   size,
   thickness,
   cornerRadius = 0,
   color,
-}: DonutSectorProps): string {
+}: DonutSectorProps): [string | null, number] {
   const outerRadius = size / 2;
   const innerRadius = outerRadius - thickness;
 
@@ -70,22 +35,41 @@ function generateDonutSector({
   );
 
   // 0 angle shouldn't render anything
-  if (angle === 0) return "";
+  if (angle === 0) return [null, outerRadius];
 
   // 360 angle returns a full circle
-  if (angle === 360) {
-    return `<circle
-				cx="${0}"
-				cy="${0}"
-				r="${outerRadius - thickness / 2}"
-				fill="none"
-				stroke="${color}"
-				strokeWidth="${thickness}"
-				opacity="1"
-			/>`;
+  if (angle >= 360) {
+    return [path, outerRadius];
   }
 
-  return `<path d="${path}" fill="${color}" />`;
+  return [path, outerRadius];
+}
+
+const DonutSector = (props: DonutSectorProps) => {
+  const [path, outerRadius] = renderDonutSector(props);
+
+  if (!path) return null;
+
+  return (
+    <path
+      d={path}
+      fill={props.color}
+      cx={0}
+      cy={0}
+      r={outerRadius - props.thickness / 2}
+      stroke={props.color}
+      strokeWidth={props.thickness}
+      opacity="1"
+    />
+  );
+};
+
+function generateDonutSector(props: DonutSectorProps): string {
+  const [path, outerRadius] = renderDonutSector(props);
+
+  if (!path) return "";
+
+  return `<path d="${path}" fill="${props.color}" cx="${0}" cy="${0}" r="${outerRadius - props.thickness / 2}" fill="none" stroke="${props.color}" strokeWidth="${props.thickness}" opacity="1" />`;
 }
 
 function getPath(
@@ -236,11 +220,6 @@ function calculateArcLength(angle: number, radius: number): number {
   // Arc length formula: radius * angle (in radians)
   return radius * angleInRadians;
 }
-
-type Vector = {
-  x: number;
-  y: number;
-};
 
 function moveTowardsOrigin(current: Vector, distance: number): Vector {
   const origin = { x: 0, y: 0 };

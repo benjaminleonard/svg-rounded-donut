@@ -22,7 +22,7 @@ npm install svg-rounded-donut
 Use the `DonutSector` component to create a SVG donut sector directly in your React code.
 
 ```jsx
-import { DonutSector } from "rounded-donut";
+import { DonutSector } from "svg-rounded-donut";
 
 const Donut = () => {
   const size = 640;
