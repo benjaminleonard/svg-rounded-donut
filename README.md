@@ -7,7 +7,7 @@
 3. [API](#api)
 4. [License](#license)
 
-<img width="1200" alt="RoundedSector" src="https://github.com/benjaminleonard/svg-rounded-donut/assets/4020798/f27dc6df-7636-4c73-8bb5-ed795df7c2bb">
+<img width="1200" alt="RoundedSector" src="https://github.com/benjaminleonard/svg-rounded-donut/assets/4020798/83c8886c-ea6c-4db0-8497-ac7a36305b65">
 
 It give you donut sectors with rounded corners...
 
