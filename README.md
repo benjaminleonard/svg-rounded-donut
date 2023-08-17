@@ -9,7 +9,7 @@
 
 <img width="1200" alt="RoundedSector" src="https://github.com/benjaminleonard/svg-rounded-donut/assets/4020798/83c8886c-ea6c-4db0-8497-ac7a36305b65">
 
-It give you donut sectors with rounded corners...
+It gives you donut sectors with rounded corners...
 
 ## Installation
 
