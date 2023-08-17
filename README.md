@@ -7,6 +7,10 @@
 3. [API](#api)
 4. [License](#license)
 
+<img width="1200" alt="RoundedSector" src="https://github.com/benjaminleonard/svg-rounded-donut/assets/4020798/f27dc6df-7636-4c73-8bb5-ed795df7c2bb">
+
+It give you donut sectors with rounded corners...
+
 ## Installation
 
 To use the SVG Donut Sector library, simply import the package into your project:
